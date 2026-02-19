@@ -1,0 +1,8 @@
+ktor:
+  application:
+    modules:
+      - io.nthcristian.ApplicationKt.module
+  deployment:
+    port: 8080
+auth:
+  passwd: 1234

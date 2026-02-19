@@ -1,0 +1,53 @@
+---
+import "../styles/global.css"
+---
+
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+    <link rel="icon" href="/favicon.ico"/>
+    <meta name="viewport" content="width=device-width"/>
+    <meta name="generator" content={Astro.generator}/>
+    <title>UShort</title>
+</head>
+<body>
+<h1 class="text-5xl text-center">UShort</h1>
+<h2 class="text-xl text-center text-black/50">Share your URL's easily</h2>
+
+<hr class="my-5 border-0"/>
+
+<div class="w-full flex justify-center align-center">
+    <form id="shorten-form" class="my-3 space-y-3 w-2/3">
+        <label for="url-input" hidden></label>
+        <input required class="p-2 inset-shadow-sm bg-gray-200 rounded-sm w-full block" type="url" name="url"
+               placeholder="Enter URL" id="url-input"/>
+        <button class="bg-linear-to-br from-violet-500 to-fuchsia-500 text-gray-100 rounded-md px-4 py-1 text-lg cursor-pointer hover:outline-1 outline-black/70"
+                type="submit" id="shorten-btn">Shorten
+        </button>
+        <br/>
+        <p class="text-lg inline-block">Your new URL: </p>
+        <a class="text-lg text-cyan-500 underline cursor-pointer" href="#" id="result"></a>
+    </form>
+
+</div>
+</body>
+</html>
+
+<script>
+    import {shorten} from "../db/actions";
+
+    const form = document.getElementById("shorten-form") as HTMLFormElement;
+    const resultElement = document.getElementById("result") as HTMLAnchorElement;
+
+    form.addEventListener("submit", (e) => {
+        const urlInput = form["url"] as HTMLInputElement;
+
+        shorten(urlInput.value).then((url) => {
+            resultElement.href = url;
+            resultElement.textContent = resultElement.href;
+        });
+
+        e.preventDefault();
+    });
+</script>
